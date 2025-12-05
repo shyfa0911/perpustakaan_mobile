@@ -5,12 +5,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useState, useEffect } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-interface CardBukuProps {
-  item: any;
-  selectedCategory?: string; // Tambahan props untuk filter
-}
-
-export default function CardBuku({ item, selectedCategory = "all" }: CardBukuProps) {
+export default function CardBuku({ item }: any) {
   const [isWishlisted, setIsWishlisted] = useState(false);
 
   // Load status wishlist saat komponen mount
@@ -23,7 +18,8 @@ export default function CardBuku({ item, selectedCategory = "all" }: CardBukuPro
       const savedWishlist = await AsyncStorage.getItem('wishlist');
       if (savedWishlist) {
         const wishlistArray = JSON.parse(savedWishlist);
-        setIsWishlisted(wishlistArray.includes(item.id));
+        const isInWishlist = wishlistArray.some((book: any) => book.id === item.id);
+        setIsWishlisted(isInWishlist);
       }
     } catch (error) {
       console.log('Error checking wishlist:', error);
@@ -37,23 +33,30 @@ export default function CardBuku({ item, selectedCategory = "all" }: CardBukuPro
       
       if (isWishlisted) {
         // Remove from wishlist
-        wishlistArray = wishlistArray.filter((id: string) => id !== item.id);
+        wishlistArray = wishlistArray.filter((book: any) => book.id !== item.id);
       } else {
-        // Add to wishlist
-        wishlistArray.push(item.id);
+        // Add to wishlist dengan data lengkap buku
+        wishlistArray.push({
+          id: item.id,
+          judul: item.judul,
+          penulis: item.penulis,
+          cover: item.cover,
+          kategori: item.kategori,
+          sinopsis: item.sinopsis,
+          rating: item.rating || "4.5",
+          dateAdded: new Date().toISOString() // Tambah timestamp
+        });
       }
       
       await AsyncStorage.setItem('wishlist', JSON.stringify(wishlistArray));
       setIsWishlisted(!isWishlisted);
+      
+      // Optional: Navigate to wishlist jika ingin langsung pindah
+      // router.push('/Home/wishlist');
     } catch (error) {
       console.log('Error updating wishlist:', error);
     }
   };
-
-  // Filter berdasarkan kategori
-  if (selectedCategory !== "all" && item.kategori?.toLowerCase() !== selectedCategory.toLowerCase()) {
-    return null; // Jangan render kalau kategori tidak match
-  }
 
   return (
     <TouchableOpacity
@@ -72,13 +75,14 @@ export default function CardBuku({ item, selectedCategory = "all" }: CardBukuPro
         <TouchableOpacity
           style={[styles.heart, isWishlisted && styles.heartActive]}
           onPress={(e) => {
-            e.stopPropagation();
+            e.stopPropagation(); // Mencegah navigasi ke detail
             handleWishlistPress();
           }}
+          activeOpacity={0.7}
         >
           <Icon 
             name={isWishlisted ? "heart" : "heart-outline"} 
-            size={20} 
+            size={24} 
             color={isWishlisted ? "#FF4081" : "white"} 
           />
         </TouchableOpacity>
@@ -86,22 +90,22 @@ export default function CardBuku({ item, selectedCategory = "all" }: CardBukuPro
         {/* Badge kategori */}
         <View style={styles.badge}>
           <Text style={{ fontSize: 11, fontWeight: "600", color: "#1e3a8a" }}>
-            {item.kategori || item.category}
+            {item.kategori}
           </Text>
         </View>
 
         {/* Content bawah */}
         <View style={styles.bottomContent}>
           <Text style={styles.title} numberOfLines={1}>
-            {item.judul || item.title}
+            {item.judul}
           </Text>
 
-          <Text style={styles.author} numberOfLines={1}>
-            {item.penulis || item.author}
+          <Text style={styles.sinopsis} numberOfLines={2}>
+            {item.sinopsis?.slice(0, 50)}...
           </Text>
 
           <View style={styles.rating}>
-            <Text style={styles.ratingText}>⭐ {item.rating || "4.5"}</Text>
+            <Text style={styles.ratingText}>{item.rating || "4.5"} ⭐</Text>
           </View>
         </View>
       </View>
@@ -140,9 +144,9 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
     zIndex: 10,
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     backgroundColor: "rgba(0,0,0,0.3)",
     justifyContent: "center",
     alignItems: "center",
@@ -170,10 +174,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 14,
   },
-  author: {
-    color: "rgba(255,255,255,0.9)",
+  sinopsis: {
+    color: "white",
     fontSize: 12,
     marginTop: 2,
+    opacity: 0.9,
+    fontStyle: "italic",
   },
   rating: {
     marginTop: 4,
@@ -182,6 +188,5 @@ const styles = StyleSheet.create({
   ratingText: {
     color: "white",
     fontWeight: "bold",
-    fontSize: 12,
   },
 });

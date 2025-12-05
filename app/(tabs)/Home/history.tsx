@@ -12,8 +12,8 @@ import {
   RefreshControl,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
+import storage from "../../../src/utils/storage";
 
 interface HistoryItem {
   id: number;
@@ -51,7 +51,7 @@ export default function HistoryScreen() {
   // Load data dari AsyncStorage
   const loadHistory = async () => {
     try {
-      const data = await AsyncStorage.getItem('historyList');
+      const data = await storage.getItem('historyList');
       if (data) {
         const parsedData = JSON.parse(data);
         setHistoryList(parsedData);

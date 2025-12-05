@@ -29,9 +29,7 @@ export default function Sidebar({ visible, onClose }: SidebarProps) {
         case "Wishlist":
           router.push("/Home/wishlist");
           break;
-        case "Kategori":
-          router.push("/Home/Kategori");
-          break;
+  
         case "Pengaturan":
           router.push("/Home/Pengaturan");
           break;
@@ -94,7 +92,6 @@ export default function Sidebar({ visible, onClose }: SidebarProps) {
             
             "Buku Dipinjam",
             "Wishlist",
-            "Kategori",
             "Pengaturan",
             "Tentang",
             "Logout",

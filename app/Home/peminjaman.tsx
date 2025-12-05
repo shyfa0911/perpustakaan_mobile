@@ -38,14 +38,14 @@ export default function Peminjaman() {
   const savePeminjaman = async (data: any) => {
     try {
       // Ambil data yang sudah ada
-      const existingData = await AsyncStorage.getItem('peminjamanList');
+      const existingData = await storage.getItem('peminjamanList');
       let peminjamanList = existingData ? JSON.parse(existingData) : [];
-      
+
       // Tambah data baru
       peminjamanList.push(data);
-      
+
       // Simpan kembali
-      await AsyncStorage.setItem('peminjamanList', JSON.stringify(peminjamanList));
+      await storage.setItem('peminjamanList', JSON.stringify(peminjamanList));
       return true;
     } catch (error) {
       console.error('Error saving data:', error);

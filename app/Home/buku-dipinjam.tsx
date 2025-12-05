@@ -11,8 +11,8 @@ import {
 } from "react-native";
 import { Text, Card, Button, Chip, Badge } from "react-native-paper";
 import { MaterialIcons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
+import storage from "../../src/utils/storage";
 
 interface PeminjamanItem {
   id: number;
@@ -48,7 +48,7 @@ export default function BukuDipinjam() {
   // Load data dari AsyncStorage
   const loadPeminjaman = async () => {
     try {
-      const data = await AsyncStorage.getItem('peminjamanList');
+      const data = await storage.getItem('peminjamanList');
       if (data) {
         const parsedData = JSON.parse(data);
         setPeminjamanList(parsedData);
@@ -149,14 +149,14 @@ export default function BukuDipinjam() {
         };
 
         // Simpan ke history
-        const existingHistory = await AsyncStorage.getItem('historyList');
+        const existingHistory = await storage.getItem('historyList');
         const historyList = existingHistory ? JSON.parse(existingHistory) : [];
         historyList.push(historyItem);
-        await AsyncStorage.setItem('historyList', JSON.stringify(historyList));
+        await storage.setItem('historyList', JSON.stringify(historyList));
 
         // Hapus dari peminjaman list
         const updatedList = peminjamanList.filter(item => item.id !== id);
-        await AsyncStorage.setItem('peminjamanList', JSON.stringify(updatedList));
+        await storage.setItem('peminjamanList', JSON.stringify(updatedList));
         setPeminjamanList(updatedList);
 
         Alert.alert(
@@ -172,7 +172,7 @@ export default function BukuDipinjam() {
           return item;
         });
 
-        await AsyncStorage.setItem('peminjamanList', JSON.stringify(updatedList));
+        await storage.setItem('peminjamanList', JSON.stringify(updatedList));
         setPeminjamanList(updatedList);
         Alert.alert("Sukses", "Status buku berhasil diperbarui");
       }
