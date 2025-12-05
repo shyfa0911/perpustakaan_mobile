@@ -290,7 +290,7 @@ const Wishlist = () => {
           </Text>
           <TouchableOpacity 
             style={styles.browseButton}
-            onPress={() => router.push('/Home/Dashboard')}
+            onPress={() => router.push('/Home')}
           >
             <Text style={styles.browseButtonText}>Jelajahi Buku</Text>
           </TouchableOpacity>

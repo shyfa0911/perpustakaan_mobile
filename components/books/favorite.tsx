@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   Text,
+  StyleSheet,
 } from "react-native";
 import booksJSON from "@/data.json";
 import { Ionicons } from "@expo/vector-icons";
@@ -14,15 +15,17 @@ import { BlurView } from "expo-blur";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
+const CARD_WIDTH = width * 0.85; // 85% dari lebar layar
+const CARD_HEIGHT = 180;
 
 export default function Favorite() {
-  const data = booksJSON.books.slice(0, 5); // ambil 5 buku terpopuler
+  const data = booksJSON.books.slice(0, 5);
   const [index, setIndex] = useState(0);
   const [wishlist, setWishlist] = useState<string[]>([]);
   const slideAnim = useRef(new Animated.Value(0)).current;
 
-  // Load wishlist saat komponen mount
+  // Load wishlist
   useEffect(() => {
     loadWishlist();
   }, []);
@@ -51,9 +54,10 @@ export default function Favorite() {
   };
 
   const animateSlide = (toIndex: number) => {
-    Animated.timing(slideAnim, {
-      toValue: -width * toIndex,
-      duration: 400,
+    Animated.spring(slideAnim, {
+      toValue: -((CARD_WIDTH + 10) * toIndex), // +10 untuk margin
+      friction: 8,
+      tension: 40,
       useNativeDriver: true,
     }).start();
   };
@@ -64,10 +68,8 @@ export default function Favorite() {
       let wishlistArray = savedWishlist ? JSON.parse(savedWishlist) : [];
       
       if (wishlistArray.includes(bookId)) {
-        // Remove from wishlist
         wishlistArray = wishlistArray.filter((id: string) => id !== bookId);
       } else {
-        // Add to wishlist
         wishlistArray.push(bookId);
       }
       
@@ -78,144 +80,114 @@ export default function Favorite() {
     }
   };
 
-  // swipe manual
+  // Swipe manual
   const panResponder = useRef(
     PanResponder.create({
-      onMoveShouldSetPanResponder: (_, gs) => Math.abs(gs.dx) > 20,
-      onPanResponderRelease: (_, gs) => {
-        if (gs.dx > 50) goPrev();
-        else if (gs.dx < -50) goNext();
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: (_, gestureState) => Math.abs(gestureState.dx) > 10,
+      onPanResponderRelease: (_, gestureState) => {
+        if (gestureState.dx > 50) {
+          goPrev();
+        } else if (gestureState.dx < -50) {
+          goNext();
+        }
       },
     })
   ).current;
 
-  // auto-slide
+  // Auto-slide
   useEffect(() => {
     const interval = setInterval(goNext, 5000);
     return () => clearInterval(interval);
   }, [index]);
 
-  return (
-    <View style={{ paddingVertical: 16 }}>
-      <Text
-        style={{
-          fontSize: 28,
-          fontWeight: "900",
-          color: "#003366",
-          paddingHorizontal: 16,
-          marginBottom: 12,
-        }}
-      >
-        Terpopuler
-      </Text>
+  // Indikator dots
+  const renderDots = () => (
+    <View style={styles.dotsContainer}>
+      {data.map((_, i) => (
+        <View
+          key={i}
+          style={[
+            styles.dot,
+            i === index ? styles.activeDot : styles.inactiveDot
+          ]}
+        />
+      ))}
+    </View>
+  );
 
-      <View
-        style={{
-          width: "100%",
-          height: 220,
-          overflow: "hidden",
-        }}
-      >
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Buku Terpopuler</Text>
+      <Text style={styles.subtitle}>Rekomendasi buku yang sedang tren</Text>
+
+      <View style={styles.carouselContainer}>
         <Animated.View
           {...panResponder.panHandlers}
-          style={{
-            flexDirection: "row",
-            width: width * data.length,
-            transform: [{ translateX: slideAnim }],
-          }}
+          style={[
+            styles.carousel,
+            {
+              width: (CARD_WIDTH + 10) * data.length,
+              transform: [{ translateX: slideAnim }],
+            }
+          ]}
         >
           {data.map((book, i) => {
             const isWishlisted = wishlist.includes(book.id);
             
             return (
-              <View
-                key={i}
-                style={{
-                  width,
-                  paddingHorizontal: 16,
-                }}
-              >
-                <BlurView
-                  intensity={40}
-                  tint="light"
-                  style={{
-                    flex: 1,
-                    borderRadius: 16,
-                    overflow: "hidden",
-                    flexDirection: "row",
-                    padding: 12,
-                    alignItems: "center",
-                    backgroundColor: "#ffffff60",
-                  }}
-                >
+              <View key={i} style={styles.cardWrapper}>
+                <BlurView intensity={30} tint="light" style={styles.card}>
+                  {/* Book Cover */}
                   <Image
                     source={{ uri: book.cover }}
-                    style={{
-                      width: 100,
-                      height: 150,
-                      borderRadius: 12,
-                    }}
+                    style={styles.bookCover}
                   />
-                  <View style={{ flex: 1, marginLeft: 12 }}>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                      <Text
-                        style={{
-                          fontWeight: "bold",
-                          fontSize: 18,
-                          color: "#003366",
-                          marginBottom: 6,
-                          flex: 1,
-                        }}
-                        numberOfLines={2}
-                      >
+                  
+                  {/* Book Info */}
+                  <View style={styles.bookInfo}>
+                    <View style={styles.headerRow}>
+                      <Text style={styles.bookTitle} numberOfLines={2}>
                         {book.judul || book.title}
                       </Text>
                       <TouchableOpacity
                         onPress={() => toggleWishlist(book.id)}
-                        style={{
-                          padding: 4,
-                        }}
+                        style={styles.heartButton}
                       >
                         <Icon 
                           name={isWishlisted ? "heart" : "heart-outline"} 
-                          size={24} 
-                          color={isWishlisted ? "#FF4081" : "#003366"} 
+                          size={22} 
+                          color={isWishlisted ? "#FF4081" : "#666"} 
                         />
                       </TouchableOpacity>
                     </View>
-                    <Text style={{ fontSize: 14, color: "#333", marginBottom: 8 }}>
+                    
+                    <Text style={styles.bookAuthor} numberOfLines={1}>
                       {book.penulis || book.author}
                     </Text>
                     
-                    <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}>
-                      <Text style={{ fontSize: 12, color: "#666", marginRight: 10 }}>
-                        ⭐ {book.rating || "4.5"}
-                      </Text>
-                      <View style={{ 
-                        backgroundColor: book.difficulty === 'Mudah' ? '#4CAF50' :
-                                       book.difficulty === 'Sedang' ? '#FF9800' : '#F44336',
-                        paddingHorizontal: 8,
-                        paddingVertical: 2,
-                        borderRadius: 6,
-                      }}>
-                        <Text style={{ fontSize: 10, color: "white", fontWeight: "600" }}>
+                    <View style={styles.metaContainer}>
+                      <View style={styles.ratingContainer}>
+                        <Ionicons name="star" size={14} color="#FFD700" />
+                        <Text style={styles.ratingText}>
+                          {book.rating || "4.5"}
+                        </Text>
+                      </View>
+                      
+                      <View style={[
+                        styles.difficultyBadge,
+                        book.difficulty === 'Mudah' && styles.easyBadge,
+                        book.difficulty === 'Sedang' && styles.mediumBadge,
+                        book.difficulty === 'Sulit' && styles.hardBadge,
+                      ]}>
+                        <Text style={styles.difficultyText}>
                           {book.difficulty || "Sedang"}
                         </Text>
                       </View>
                     </View>
-
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: "#4f86f7",
-                        paddingVertical: 8,
-                        paddingHorizontal: 16,
-                        borderRadius: 12,
-                        alignSelf: "flex-start",
-                      }}
-                    >
-                      <Text style={{ color: "white", fontWeight: "bold" }}>
-                        Pinjam
-                      </Text>
+                    
+                    <TouchableOpacity style={styles.borrowButton}>
+                      <Text style={styles.borrowButtonText}>Pinjam Sekarang</Text>
                     </TouchableOpacity>
                   </View>
                 </BlurView>
@@ -224,37 +196,180 @@ export default function Favorite() {
           })}
         </Animated.View>
 
-        {/* tombol prev/next */}
-        <TouchableOpacity
-          onPress={goPrev}
-          style={{
-            position: "absolute",
-            left: 10,
-            top: "50%",
-            transform: [{ translateY: -20 }],
-            backgroundColor: "rgba(0,0,0,0.2)",
-            borderRadius: 100,
-            padding: 6,
-          }}
-        >
-          <Ionicons name="chevron-back" size={28} color="white" />
+        {/* Navigation Buttons */}
+        <TouchableOpacity onPress={goPrev} style={[styles.navButton, styles.prevButton]}>
+          <Ionicons name="chevron-back" size={20} color="#fff" />
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={goNext}
-          style={{
-            position: "absolute",
-            right: 10,
-            top: "50%",
-            transform: [{ translateY: -20 }],
-            backgroundColor: "rgba(0,0,0,0.2)",
-            borderRadius: 100,
-            padding: 6,
-          }}
-        >
-          <Ionicons name="chevron-forward" size={28} color="white" />
+        <TouchableOpacity onPress={goNext} style={[styles.navButton, styles.nextButton]}>
+          <Ionicons name="chevron-forward" size={20} color="#fff" />
         </TouchableOpacity>
       </View>
+
+      {/* Dots Indicator */}
+      {renderDots()}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#003366",
+    marginBottom: 4,
+  },
+  subtitle: {
+    fontSize: 14,
+    color: "#666",
+    marginBottom: 20,
+  },
+  carouselContainer: {
+    height: CARD_HEIGHT + 40,
+    overflow: "visible",
+  },
+  carousel: {
+    flexDirection: "row",
+    height: CARD_HEIGHT,
+  },
+  cardWrapper: {
+    width: CARD_WIDTH,
+    marginRight: 10,
+  },
+  card: {
+    flex: 1,
+    borderRadius: 16,
+    overflow: "hidden",
+    flexDirection: "row",
+    padding: 12,
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  bookCover: {
+    width: 90,
+    height: 135,
+    borderRadius: 10,
+    marginRight: 12,
+  },
+  bookInfo: {
+    flex: 1,
+    justifyContent: "space-between",
+  },
+  headerRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+  },
+  bookTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#003366",
+    flex: 1,
+    marginRight: 8,
+    lineHeight: 20,
+  },
+  heartButton: {
+    padding: 4,
+  },
+  bookAuthor: {
+    fontSize: 13,
+    color: "#666",
+    marginBottom: 8,
+  },
+  metaContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  ratingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FFF9E6",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+    marginRight: 8,
+  },
+  ratingText: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#FF9800",
+    marginLeft: 4,
+  },
+  difficultyBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+  },
+  easyBadge: {
+    backgroundColor: "#4CAF50",
+  },
+  mediumBadge: {
+    backgroundColor: "#FF9800",
+  },
+  hardBadge: {
+    backgroundColor: "#F44336",
+  },
+  difficultyText: {
+    fontSize: 10,
+    color: "white",
+    fontWeight: "600",
+  },
+  borrowButton: {
+    backgroundColor: "#4f86f7",
+    paddingVertical: 8,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  borrowButtonText: {
+    color: "white",
+    fontWeight: "600",
+    fontSize: 13,
+  },
+  navButton: {
+    position: "absolute",
+    top: CARD_HEIGHT / 2 - 20,
+    backgroundColor: "rgba(0, 51, 102, 0.7)",
+    borderRadius: 20,
+    padding: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 5,
+  },
+  prevButton: {
+    left: -10,
+  },
+  nextButton: {
+    right: -10,
+  },
+  dotsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 20,
+  },
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginHorizontal: 4,
+  },
+  activeDot: {
+    backgroundColor: "#4f86f7",
+    width: 24,
+  },
+  inactiveDot: {
+    backgroundColor: "#E0E0E0",
+  },
+});

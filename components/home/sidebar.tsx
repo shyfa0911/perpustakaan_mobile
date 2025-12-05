@@ -9,39 +9,40 @@ type SidebarProps = {
 
 export default function Sidebar({ visible, onClose }: SidebarProps) {
   const router = useRouter();
-  
+
   if (!visible) return null;
 
   // FUNGSI UNTUK HANDLE NAVIGASI TIAP MENU
   const handleMenuPress = (menuName: string) => {
     onClose(); // Tutup sidebar dulu
-    
+
     // Beri sedikit delay
     setTimeout(() => {
       switch (menuName) {
         case "Home":
           router.push("/Home");
           break;
-        case "Peminjaman":
-          router.push("/Home/Peminjaman");
+       
+        case "Buku Dipinjam":
+          router.push("/Home/buku-dipinjam");
           break;
         case "Wishlist":
           router.push("/Home/wishlist");
           break;
         case "Kategori":
-          router.push("/Home/Categories");
+          router.push("/Home/Kategori");
           break;
         case "Pengaturan":
-          router.push("/Home/Settings");
+          router.push("/Home/Pengaturan");
           break;
         case "Tentang":
           router.push("/Home/About");
           break;
         case "Logout":
-          router.replace("/auth/login");
+          router.replace("/(auth)/login");
           break;
         default:
-          router.push("/Home/Dashboard");
+          router.push("/Home");
       }
     }, 300);
   };
@@ -90,15 +91,16 @@ export default function Sidebar({ visible, onClose }: SidebarProps) {
 
           {[
             "Home",
-            "Peminjaman",
+            
+            "Buku Dipinjam",
             "Wishlist",
             "Kategori",
             "Pengaturan",
             "Tentang",
             "Logout",
           ].map((item) => (
-            <TouchableOpacity 
-              key={item} 
+            <TouchableOpacity
+              key={item}
               style={{ marginVertical: 12 }}
               onPress={() => handleMenuPress(item)}
             >

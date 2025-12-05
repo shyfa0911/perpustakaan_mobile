@@ -8,15 +8,12 @@ import {
 } from "react-native";
 import { Card, Text, Chip, Button } from "react-native-paper";
 import booksJSON from "../../data.json";
-import { useState } from "react";
-import Peminjaman from "./peminjaman";
 import { MaterialIcons } from "@expo/vector-icons";
 
 export default function Detail() {
   const params = useLocalSearchParams();
   const router = useRouter(); // <- gunakan router
   const bookId = Number(params.id);
-  const [borrowPage, setBorrowPage] = useState(false);
 
   const book = booksJSON.books.find((b) => b.id === bookId);
 
@@ -26,10 +23,6 @@ export default function Detail() {
         <Text>Buku tidak ditemukan</Text>
       </View>
     );
-  }
-
-  if (borrowPage) {
-    return <Peminjaman bookId={bookId} onClose={() => setBorrowPage(false)} />;
   }
 
   return (
@@ -115,7 +108,7 @@ export default function Detail() {
           {/* BUTTON PINJAM */}
           <Button
             mode="contained"
-            onPress={() => setBorrowPage(true)}
+            onPress={() => router.push(`/Home/peminjaman?bookData=${encodeURIComponent(JSON.stringify(book))}`)}
             style={{ marginTop: 30, borderRadius: 12, paddingVertical: 5 }}
           >
             Pinjam Buku
