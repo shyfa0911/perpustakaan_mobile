@@ -38,9 +38,9 @@ export default function TabLayout() {
     >
       {/* URUTAN MENU: HOME -> SEARCH -> PROFILE -> HISTORY */}
       <Tabs.Screen
-        name="index"
+        name="Home/index"
         options={{
-          title: "Home",
+          title: "Home/",
           tabBarIcon: ({ focused, color }) => {
             const scaleAnim = useRef(new Animated.Value(1)).current;
 
@@ -67,7 +67,7 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="search"
+        name="Home/search"
         options={{
           title: "Search",
           tabBarIcon: ({ focused, color }) => {
@@ -96,36 +96,7 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="profile"
-        options={{
-          title: "Profile",
-          tabBarIcon: ({ focused, color }) => {
-            const scaleAnim = useRef(new Animated.Value(1)).current;
-
-            useEffect(() => {
-              Animated.spring(scaleAnim, {
-                toValue: focused ? 1.15 : 1,
-                tension: 150,
-                friction: 12,
-                useNativeDriver: true,
-              }).start();
-            }, [focused]);
-
-            return (
-              <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
-                <Ionicons
-                  name="person"
-                  size={28}
-                  color={focused ? "#2F80ED" : color}
-                />
-              </Animated.View>
-            );
-          },
-        }}
-      />
-
-      <Tabs.Screen
-        name="history"
+        name="Home/history"
         options={{
           title: "History",
           tabBarIcon: ({ focused, color }) => {
@@ -144,6 +115,34 @@ export default function TabLayout() {
               <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
                 <Ionicons
                   name="time"
+                  size={28}
+                  color={focused ? "#2F80ED" : color}
+                />
+              </Animated.View>
+            );
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="Home/profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ focused, color }) => {
+            const scaleAnim = useRef(new Animated.Value(1)).current;
+
+            useEffect(() => {
+              Animated.spring(scaleAnim, {
+                toValue: focused ? 1.15 : 1,
+                tension: 150,
+                friction: 12,
+                useNativeDriver: true,
+              }).start();
+            }, [focused]);
+
+            return (
+              <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+                <Ionicons
+                  name="person"
                   size={28}
                   color={focused ? "#2F80ED" : color}
                 />

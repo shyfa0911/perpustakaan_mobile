@@ -8,8 +8,8 @@ import {
   View,
 } from "react-native";
 import { Text } from "react-native-paper";
-import CardBuku from "../../components/books/cardBuku";
-import booksJSON from "../../data.json";
+import CardBuku from "../../../components/books/cardBuku";
+import booksJSON from "../../../data.json";
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");

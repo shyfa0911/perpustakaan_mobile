@@ -17,6 +17,11 @@ export default function RootLayout() {
       <Stack screenOptions={{ headerShown: false }}>
         {/* Splash Screen */}
         <Stack.Screen name="splashscreen" />
+        
+        <Stack.Screen name="Home/Wishlist" />
+
+        {/* AUTH SCREENS */}
+        <Stack.Screen name="(auth)" />
 
         {/* MAIN TABS */}
         <Stack.Screen name="(tabs)" />

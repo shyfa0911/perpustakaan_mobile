@@ -1,5 +1,6 @@
 import { View, Text, TouchableOpacity, Pressable } from "react-native";
 import { BlurView } from "expo-blur";
+import { useRouter } from "expo-router";
 
 type SidebarProps = {
   visible: boolean;
@@ -7,7 +8,43 @@ type SidebarProps = {
 };
 
 export default function Sidebar({ visible, onClose }: SidebarProps) {
+  const router = useRouter();
+  
   if (!visible) return null;
+
+  // FUNGSI UNTUK HANDLE NAVIGASI TIAP MENU
+  const handleMenuPress = (menuName: string) => {
+    onClose(); // Tutup sidebar dulu
+    
+    // Beri sedikit delay
+    setTimeout(() => {
+      switch (menuName) {
+        case "Home":
+          router.push("/Home");
+          break;
+        case "Peminjaman":
+          router.push("/Home/Peminjaman");
+          break;
+        case "Wishlist":
+          router.push("/Home/wishlist");
+          break;
+        case "Kategori":
+          router.push("/Home/Categories");
+          break;
+        case "Pengaturan":
+          router.push("/Home/Settings");
+          break;
+        case "Tentang":
+          router.push("/Home/About");
+          break;
+        case "Logout":
+          router.replace("/auth/login");
+          break;
+        default:
+          router.push("/Home/Dashboard");
+      }
+    }, 300);
+  };
 
   return (
     <Pressable
@@ -60,7 +97,11 @@ export default function Sidebar({ visible, onClose }: SidebarProps) {
             "Tentang",
             "Logout",
           ].map((item) => (
-            <TouchableOpacity key={item} style={{ marginVertical: 12 }}>
+            <TouchableOpacity 
+              key={item} 
+              style={{ marginVertical: 12 }}
+              onPress={() => handleMenuPress(item)}
+            >
               <Text style={{ fontSize: 18, color: "#fff" }}>{item}</Text>
             </TouchableOpacity>
           ))}

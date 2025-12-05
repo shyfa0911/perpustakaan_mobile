@@ -10,8 +10,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import CardBuku from "../../components/books/cardBuku";
-import booksJSON from "../../data.json";
+import CardBuku from "../../../components/books/cardBuku";
+import booksJSON from "../../../data.json";
 
 export default function HomeScreen() {
   const [sidebar, setSidebar] = useState(false);

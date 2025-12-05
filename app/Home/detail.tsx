@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { Card, Text, Chip, Button } from "react-native-paper";
-import booksJSON from "../data.json";
+import booksJSON from "../../data.json";
 import { useState } from "react";
 import Peminjaman from "./peminjaman";
 import { MaterialIcons } from "@expo/vector-icons";

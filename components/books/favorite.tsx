@@ -1,4 +1,3 @@
-// app/(tabs)/index.tsx
 import { useState, useRef, useEffect } from "react";
 import {
   View,
@@ -12,13 +11,32 @@ import {
 import booksJSON from "@/data.json";
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get("window");
 
 export default function Favorite() {
   const data = booksJSON.books.slice(0, 5); // ambil 5 buku terpopuler
   const [index, setIndex] = useState(0);
+  const [wishlist, setWishlist] = useState<string[]>([]);
   const slideAnim = useRef(new Animated.Value(0)).current;
+
+  // Load wishlist saat komponen mount
+  useEffect(() => {
+    loadWishlist();
+  }, []);
+
+  const loadWishlist = async () => {
+    try {
+      const savedWishlist = await AsyncStorage.getItem('wishlist');
+      if (savedWishlist) {
+        setWishlist(JSON.parse(savedWishlist));
+      }
+    } catch (error) {
+      console.log('Error loading wishlist:', error);
+    }
+  };
 
   const goNext = () => {
     const next = (index + 1) % data.length;
@@ -38,6 +56,26 @@ export default function Favorite() {
       duration: 400,
       useNativeDriver: true,
     }).start();
+  };
+
+  const toggleWishlist = async (bookId: string) => {
+    try {
+      const savedWishlist = await AsyncStorage.getItem('wishlist');
+      let wishlistArray = savedWishlist ? JSON.parse(savedWishlist) : [];
+      
+      if (wishlistArray.includes(bookId)) {
+        // Remove from wishlist
+        wishlistArray = wishlistArray.filter((id: string) => id !== bookId);
+      } else {
+        // Add to wishlist
+        wishlistArray.push(bookId);
+      }
+      
+      await AsyncStorage.setItem('wishlist', JSON.stringify(wishlistArray));
+      setWishlist(wishlistArray);
+    } catch (error) {
+      console.log('Error updating wishlist:', error);
+    }
   };
 
   // swipe manual
@@ -86,69 +124,104 @@ export default function Favorite() {
             transform: [{ translateX: slideAnim }],
           }}
         >
-          {data.map((book, i) => (
-            <View
-              key={i}
-              style={{
-                width,
-                paddingHorizontal: 16,
-              }}
-            >
-              <BlurView
-                intensity={40}
-                tint="light"
+          {data.map((book, i) => {
+            const isWishlisted = wishlist.includes(book.id);
+            
+            return (
+              <View
+                key={i}
                 style={{
-                  flex: 1,
-                  borderRadius: 16,
-                  overflow: "hidden",
-                  flexDirection: "row",
-                  padding: 12,
-                  alignItems: "center",
-                  backgroundColor: "#ffffff60",
+                  width,
+                  paddingHorizontal: 16,
                 }}
               >
-                <Image
-                  source={{ uri: book.cover }}
+                <BlurView
+                  intensity={40}
+                  tint="light"
                   style={{
-                    width: 100,
-                    height: 150,
-                    borderRadius: 12,
+                    flex: 1,
+                    borderRadius: 16,
+                    overflow: "hidden",
+                    flexDirection: "row",
+                    padding: 12,
+                    alignItems: "center",
+                    backgroundColor: "#ffffff60",
                   }}
-                />
-                <View style={{ flex: 1, marginLeft: 12 }}>
-                  <Text
+                >
+                  <Image
+                    source={{ uri: book.cover }}
                     style={{
-                      fontWeight: "bold",
-                      fontSize: 18,
-                      color: "#003366",
-                      marginBottom: 6,
-                    }}
-                    numberOfLines={2}
-                  >
-                    {book.judul}
-                  </Text>
-                  <Text style={{ fontSize: 14, color: "#333" }}>
-                    {book.penulis}
-                  </Text>
-
-                  <TouchableOpacity
-                    style={{
-                      marginTop: 10,
-                      backgroundColor: "#4f86f7",
-                      paddingVertical: 6,
-                      paddingHorizontal: 12,
+                      width: 100,
+                      height: 150,
                       borderRadius: 12,
-                      alignSelf: "flex-start",
                     }}
-                  >
-                    <Text style={{ color: "white", fontWeight: "bold" }}>
-                      Pinjam
+                  />
+                  <View style={{ flex: 1, marginLeft: 12 }}>
+                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                      <Text
+                        style={{
+                          fontWeight: "bold",
+                          fontSize: 18,
+                          color: "#003366",
+                          marginBottom: 6,
+                          flex: 1,
+                        }}
+                        numberOfLines={2}
+                      >
+                        {book.judul || book.title}
+                      </Text>
+                      <TouchableOpacity
+                        onPress={() => toggleWishlist(book.id)}
+                        style={{
+                          padding: 4,
+                        }}
+                      >
+                        <Icon 
+                          name={isWishlisted ? "heart" : "heart-outline"} 
+                          size={24} 
+                          color={isWishlisted ? "#FF4081" : "#003366"} 
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <Text style={{ fontSize: 14, color: "#333", marginBottom: 8 }}>
+                      {book.penulis || book.author}
                     </Text>
-                  </TouchableOpacity>
-                </View>
-              </BlurView>
-            </View>
-          ))}
+                    
+                    <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}>
+                      <Text style={{ fontSize: 12, color: "#666", marginRight: 10 }}>
+                        ⭐ {book.rating || "4.5"}
+                      </Text>
+                      <View style={{ 
+                        backgroundColor: book.difficulty === 'Mudah' ? '#4CAF50' :
+                                       book.difficulty === 'Sedang' ? '#FF9800' : '#F44336',
+                        paddingHorizontal: 8,
+                        paddingVertical: 2,
+                        borderRadius: 6,
+                      }}>
+                        <Text style={{ fontSize: 10, color: "white", fontWeight: "600" }}>
+                          {book.difficulty || "Sedang"}
+                        </Text>
+                      </View>
+                    </View>
+
+                    <TouchableOpacity
+                      style={{
+                        backgroundColor: "#4f86f7",
+                        paddingVertical: 8,
+                        paddingHorizontal: 16,
+                        borderRadius: 12,
+                        alignSelf: "flex-start",
+                      }}
+                    >
+                      <Text style={{ color: "white", fontWeight: "bold" }}>
+                        Pinjam
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </BlurView>
+              </View>
+            );
+          })}
         </Animated.View>
 
         {/* tombol prev/next */}

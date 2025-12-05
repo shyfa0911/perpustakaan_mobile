@@ -7,6 +7,7 @@ import Animated, {
   useSharedValue,
   withDelay,
   withTiming,
+  Easing,
 } from "react-native-reanimated";
 
 export default function SplashScreen() {
@@ -15,12 +16,23 @@ export default function SplashScreen() {
   const translateY = useSharedValue(20);
 
   useEffect(() => {
-    scale.value = withTiming(1, { duration: 900, easing: (t) => t });
-    opacity.value = withDelay(300, withTiming(1, { duration: 800 }));
-    translateY.value = withDelay(300, withTiming(0, { duration: 800 }));
+    scale.value = withTiming(1, {
+      duration: 900,
+      easing: Easing.out(Easing.ease),
+    });
+
+    opacity.value = withDelay(
+      300,
+      withTiming(1, { duration: 800, easing: Easing.out(Easing.ease) })
+    );
+
+    translateY.value = withDelay(
+      300,
+      withTiming(0, { duration: 800, easing: Easing.out(Easing.ease) })
+    );
 
     const timer = setTimeout(() => {
-      router.replace("/(tabs)");
+      router.replace("/(auth)/Onboarding");
     }, 2000);
 
     return () => clearTimeout(timer);
@@ -37,13 +49,12 @@ export default function SplashScreen() {
 
   return (
     <LinearGradient colors={["#0d1b2a", "#0d1b2a"]} style={styles.container}>
-      {/* Glow belakang logo */}
       <View style={styles.glow} />
 
       <Animated.View style={[styles.logoContainer, logoStyle]}>
         <Image
           source={require("../assets/BookZone.png")}
-          style={{ height: 55 }}
+          style={{ height: 55, width: 200, resizeMode: "contain" }}
         />
       </Animated.View>
 
@@ -63,28 +74,20 @@ const styles = StyleSheet.create({
   },
 
   logoContainer: {
-    marginBottom: 15,
+    marginBottom: 20,
   },
 
   glow: {
     position: "absolute",
-    width: 250,
-    height: 250,
+    width: 240,
+    height: 240,
     borderRadius: 200,
-    backgroundColor: "#0467ED55",
-    top: "35%",
-    filter: "blur(40px)",
+    backgroundColor: "#0467ED33",
+    top: "38%",
   },
 
   textContainer: {
     alignItems: "center",
-  },
-
-  title: {
-    fontSize: 38,
-    fontWeight: "bold",
-    color: "white",
-    marginTop: 8,
   },
 
   subtitle: {

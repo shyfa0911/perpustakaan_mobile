@@ -1,11 +1,53 @@
 import { router } from "expo-router";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Text } from "react-native-paper";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useState, useEffect } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function CardBuku({ item }: any) {
+  const [isWishlisted, setIsWishlisted] = useState(false);
+
+  // Load status wishlist saat komponen mount
+  useEffect(() => {
+    checkWishlistStatus();
+  }, []);
+
+  const checkWishlistStatus = async () => {
+    try {
+      const savedWishlist = await AsyncStorage.getItem('wishlist');
+      if (savedWishlist) {
+        const wishlistArray = JSON.parse(savedWishlist);
+        setIsWishlisted(wishlistArray.includes(item.id));
+      }
+    } catch (error) {
+      console.log('Error checking wishlist:', error);
+    }
+  };
+
+  const handleWishlistPress = async () => {
+    try {
+      const savedWishlist = await AsyncStorage.getItem('wishlist');
+      let wishlistArray = savedWishlist ? JSON.parse(savedWishlist) : [];
+      
+      if (isWishlisted) {
+        // Remove from wishlist
+        wishlistArray = wishlistArray.filter((id: string) => id !== item.id);
+      } else {
+        // Add to wishlist
+        wishlistArray.push(item.id);
+      }
+      
+      await AsyncStorage.setItem('wishlist', JSON.stringify(wishlistArray));
+      setIsWishlisted(!isWishlisted);
+    } catch (error) {
+      console.log('Error updating wishlist:', error);
+    }
+  };
+
   return (
     <TouchableOpacity
-      onPress={() => router.push(`/detail?id=${item.id}`)}
+      onPress={() => router.push(`/Home/detail?id=${item.id}`)}
       style={styles.cardWrapper}
       activeOpacity={0.8}
     >
@@ -17,29 +59,39 @@ export default function CardBuku({ item }: any) {
         <View style={styles.overlay} />
 
         {/* Wishlist Heart */}
-        <View style={styles.heart}>
-          <Text style={{ fontSize: 20, color: "white" }}>♡</Text>
-        </View>
+        <TouchableOpacity
+          style={[styles.heart, isWishlisted && styles.heartActive]}
+          onPress={(e) => {
+            e.stopPropagation();
+            handleWishlistPress();
+          }}
+        >
+          <Icon 
+            name={isWishlisted ? "heart" : "heart-outline"} 
+            size={20} 
+            color={isWishlisted ? "#FF4081" : "white"} 
+          />
+        </TouchableOpacity>
 
         {/* Badge kategori */}
         <View style={styles.badge}>
           <Text style={{ fontSize: 11, fontWeight: "600", color: "#1e3a8a" }}>
-            {item.kategori}
+            {item.kategori || item.category}
           </Text>
         </View>
 
         {/* Content bawah */}
         <View style={styles.bottomContent}>
           <Text style={styles.title} numberOfLines={1}>
-            {item.judul}
+            {item.judul || item.title}
           </Text>
 
-          <Text style={styles.sinopsis} numberOfLines={2}>
-            {item.sinopsis?.slice(0, 50)}...
+          <Text style={styles.author} numberOfLines={1}>
+            {item.penulis || item.author}
           </Text>
 
           <View style={styles.rating}>
-            <Text style={styles.ratingText}>4.5 ⭐</Text>
+            <Text style={styles.ratingText}>⭐ {item.rating || "4.5"}</Text>
           </View>
         </View>
       </View>
@@ -58,8 +110,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#dbeafe",
     overflow: "hidden",
     position: "relative",
-
-    // Shadow simple
     elevation: 4,
     shadowColor: "#000",
     shadowOpacity: 0.15,
@@ -73,13 +123,22 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(13, 27, 42, 0.4)", // gelap tipis
+    backgroundColor: "rgba(13, 27, 42, 0.4)",
   },
   heart: {
     position: "absolute",
     top: 10,
     right: 10,
     zIndex: 10,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: "rgba(0,0,0,0.3)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  heartActive: {
+    backgroundColor: "rgba(255, 64, 129, 0.3)",
   },
   badge: {
     position: "absolute",
@@ -101,12 +160,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 14,
   },
-  sinopsis: {
-    color: "white",
+  author: {
+    color: "rgba(255,255,255,0.9)",
     fontSize: 12,
     marginTop: 2,
-    opacity: 0.9,
-    fontStyle: "italic",
   },
   rating: {
     marginTop: 4,
@@ -115,5 +172,6 @@ const styles = StyleSheet.create({
   ratingText: {
     color: "white",
     fontWeight: "bold",
+    fontSize: 12,
   },
 });
