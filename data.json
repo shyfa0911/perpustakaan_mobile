@@ -1,0 +1,95 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "cover": "https://image.gramedia.net/rs:fit:0:0/plain/https://cdn.gramedia.com/uploads/items/bumi-manusia-edit.jpg",
+      "isbn": "9789799731234",
+      "judul": "Bumi Manusia",
+      "penulis": "Pramoedya Ananta Toer",
+      "sinopsis": "Roman Tetralogi Buru mengambil latar belakang dan cikal bakal nation Indonesia di awal abad ke-20. Dengan membacanya waktu kita dibalikkan sedemikian rupa dan hidup di era membibitnya pergerakan nasional mula-mula, juga pertautan rasa, kegamangan jiwa, percintaan, dan pertarungan kekuatan anonim para srikandi yang mengawal penyemaian bangunan nasional yang kemudian kelak melahirkan Indonesia modern. Roman bagian pertama; Bumi Manusia, sebagai periode penyemaian dan kegelisahan dimana Minke sebagai aktor sekaligus kreator adalah manusia berdarah priyayi yang semampu mungkin keluar dari kepompong kejawaannya menuju manusia yang bebas dan merdeka, di sudut lain membelah jiwa ke-Eropa-an yang menjadi simbol dan kiblat dari ketinggian pengetahuan dan peradaban. Pram menggambarkan sebuah adegan antara Minke dengan ayahnya yang sangat sentimentil: Aku mengangkat sembah sebagaimana biasa aku lihat dilakukan punggawa terhadap kakekku dan nenekku dan orangtuaku, waktu lebaran. Dan yang sekarang tak juga diturunkan sebelum Bupati itu duduk enak di tempatnya. Dalam mengangkat sembah serasa hilang seluruh ilmu dan pengetahuan yang kupelajari tahun demi tahun belakangan ini. Hilang indahnya dunia sebagaimana dijanjikan oleh kemajuan ilmu. Sembah pengagungan pada leluhur dan pembesar melalui perendahan dan penghinaan diri! Sampai sedatar tanah kalau mungkin! Uh, anak-cucuku tak kurelakan menjalani kehinaan ini. 'Kita kalah, Ma,' bisikku. 'Kita telah melawan, Nak, Nyo, sebaik-baiknya, sehormat-hormatnya.'",
+      "penerbit": "Lentera Dipantara",
+      "jumlah_halaman": 538,
+      "tahun_terbit": 2015,
+      "kategori": "novel",
+      "id_rak": 4
+    },
+    {
+      "id": 2,
+      "cover": "https://image.gramedia.net/rs:fit:0:0/plain/https://cdn.gramedia.com/uploads/items/9786020366517_Cantik-Itu-Luka-Hard-Cover---Limited-Edition.jpg",
+      "isbn": "9786020312583",
+      "judul": "Cantik Itu Luka",
+      "penulis": "Eka Kurniawan",
+      "sinopsis": "Hidup di era kolonialisme bagi para wanita dianggap sudah setara seperti hidup di neraka. Terutama bagi para wanita berparas cantik yang menjadi incaran tentara penjajah untuk melampiaskan hasrat mereka. Itu lah takdir miris yang dilalui Dewi Ayu, demi menyelamatkan hidupnya sendiri Dewi harus menerima paksaan menjadi pelacur bagi tentara Belanda dan Jepang selama masa kedudukan mereka di Indonesia. Kecantikan Dewi tidak hanya terkenal dikalangan para penjajah saja, seluruh desa pun mengakui pesona parasnya itu. Namun bagi Dewi, kecantikannya ini seperti kutukan, kutukan yang membuat hidupnya sengsara, dan kutukan yang mengancam takdir keempat anak perempuannya yang ikut mewarisi genetik cantiknya. Tapi tidak dengan satu anak terakhir Dewi, si Cantik, yang lahir dengan kondisi buruk rupa. Tak lama setelah mendatangkan Cantik ke dunia, Dewi harus berpulang. Tapi di satu sore, dua puluh satu tahun kemudian, Dewi kembali, bangkit dari kuburannya. Kebangkitannya menguak kutukan dan tragedi keluarga. Bagaimana takdir yang akan menghampiri si Cantik? Apa yang membuat Dewi harus kembali ke dunia bak neraka ini? Ungkap rahasia dibalik misteri kisah masa kolonial dalam novel Cantik Itu Luka karya Eka Kurniawan.",
+      "penerbit": "Gramedia Pustaka Utama",
+      "jumlah_halaman": 508,
+      "tahun_terbit": 2018,
+      "kategori": "novel",
+      "id_rak": 4
+    },
+    {
+      "id": 3,
+      "cover": "https://static.buku.kemdikbud.go.id/content/image/coverteks/coverkurikulum21/Bahasa_Indonesia_BS_KLS_X_Rev_Cover.png",
+      "isbn": "9786231183767",
+      "judul": "Bahasa Indonesia: untuk SMA/SMK/MA/MAK Kelas X (Edisi Revisi)",
+      "penulis": "Fadillah Tri Aulia, Sefi Indra Gumilar, Alvian Kurniawan",
+      "sinopsis": "Salam literasi! Selamat datang di kelas X. Kalian telah berhasil melewati jenjang SMP dan kini bersiap menapaki tahapan selanjutnya. Di bangku SMA ini, kalian akan mendapatkan teman, lingkungan belajar, dan materi belajar baru. Buku ini akan mengajak kalian mengeksplorasi ragam bacaan dari berbagai tema yang ada di sekitar kalian. Selain itu, buku ini juga menyajikan beragam aktivitas dan ruang bagi kalian untuk berlatih sekaligus mengekspresikan kreativitas dalam pembelajaran bahasa Indonesia. Semoga ragam bacaan, materi, kegiatan, dan latihan yang tersaji dalam buku ini dapat membuat kalian lebih memahami, terampil, dan mencintai bahasa Indonesia. Selamat menikmati tantangan dan pengalaman dunia belajar yang baru! Semoga petualangan belajar kalian di kelas X menyenangkan.",
+      "penerbit": "Pusat Kurikulum dan Perbukuan",
+      "jumlah_halaman": 320,
+      "tahun_terbit": 2023,
+      "kategori": "Buku Paket",
+      "id_rak": 2
+    },
+    {
+      "id": 4,
+      "cover": "https://static.buku.kemdikbud.go.id/content/image/coverteks/coverkurikulum21/Indonesia_BS_KLS_XI_TL_Rev_Cover.png",
+      "isbn": "9786233883276",
+      "judul": "Bahasa Indonesia Tingkat Lanjut: SMA/MA Kelas XI (Edisi Revisi)",
+      "penulis": "Rahmah Purwahida, Maman",
+      "sinopsis": "Para peserta didik yang kami banggakan, sekarang kalian telah memilih untuk menekuni bahasa dan sastra Indonesia lebih mendalam. Kemampuan berbahasa dan bersastra merupakan fondasi dari kemampuan literasi. Literasi menjadi kemampuan sangat penting yang digunakan untuk bekerja dan belajar sepanjang hayat. Keahlian terhadap semua bidang kajian, bidang kehidupan, dan tujuan-tujuan sosial membutuhkan kemampuan literasi. Pembelajaran melalui buku Bahasa Indonesia Tingkat Lanjut: Cakap Berbahasa dan Bersastra Indonesia untuk SMA Kelas XI (Edisi Revisi) juga meyiapkan kalian menguasai kemampuan literasi untuk berbagai tujuan berkomunikasi dalam konteks sosial budaya Indonesia. Kemampuan literasi dikembangkan ke dalam pembelajaran menyimak, membaca dan memirsa, menulis, serta berbicara dan mempresentasikan untuk berbagai tujuan, berbasis genre yang terkait dengan penggunaan bahasa dalam kehidupan. Setiap genre memiliki tipe teks yang didasarkan pada alur pikir—struktur—khas teks tertentu. Tipe teks merupakan alur pikir yang dapat mengoptimalkan penggunaan bahasa untuk belajar sepanjang hayat dan bekerja. Pembinaan dan pengembangan kemampuan berbahasa dan bersastra Indonesia dalam buku ini akan membentuk kalian menjadi insan yang memiliki Profil Pelajar Pancasila, yaitu beriman, bertakwa kepada Tuhan Yang Maha Esa, dan berakhlak mulia; bernalar kritis; mandiri; kreatif; bergotong royong; dan berkebinekaan global. Buku ini akan menemani kalian belajar selama satu tahun di kelas XI. Selamat berpetualang dan menikmati pengalaman belajar yang seru melalui buku ini. Semoga kalian selalu sehat, sejahtera, dan sukses selalu. Amin.",
+      "penerbit": "Pusat Perbukuan",
+      "jumlah_halaman": 240,
+      "tahun_terbit": 2024,
+      "kategori": "Buku Paket",
+      "id_rak": 2
+    },
+    {
+      "id": 5,
+      "cover": "https://image.gramedia.net/rs:fit:0:0/plain/https://cdn.gramedia.com/uploads/items/9786024246945_Laut-Bercerita.png",
+      "isbn": "9786024246945",
+      "judul": "Laut Bercerita",
+      "penulis": "Leila S. Chudori",
+      "sinopsis": "Buku ini terdiri atas dua bagian. Bagian pertama mengambil sudut pandang seorang mahasiswa aktivis bernama Laut, menceritakan bagaimana Laut dan kawan-kawannya menyusun rencana, berpindah-pindah dalam pelarian, hingga tertangkap oleh pasukan rahasia. Sedangkan bagian kedua dikisahkan oleh Asmara, adik Laut. Bagian kedua mewakili perasaan keluarga korban penghilangan paksa, bagaimana pencarian mereka terhadap kerabat mereka yang tak pernah kembali. Laut Bercerita, novel terbaru Leila S. Chudori, bertutur tentang kisah keluarga yang kehilangan, sekumpulan sahabat yang merasakan kekosongan di dada, sekelompok orang yang gemar menyiksa dan lancar berkhianat, sejumlah keluarga yang mencari kejelasan makam anaknya, dan tentang cinta yang tak akan luntur.",
+      "penerbit": "Pepustakaan Populer Gramedia",
+      "jumlah_halaman": 400,
+      "tahun_terbit": 2017,
+      "kategori": "novel",
+      "id_rak": 4
+    },
+    {
+      "id": 6,
+      "cover": "https://image.gramedia.net/rs:fit:0:0/plain/https://cdn.gramedia.com/uploads/products/nis4iz29ve.jpg",
+      "isbn": "9786230142925",
+      "judul": "Etika Bisnis",
+      "penulis": "Budi Karyanto, S.E., M.M.",
+      "sinopsis": "Buku ini menawarkan wawasan mendalam tentang etika bisnis dan relevansinya dalam perusahaan modern. Dimulai dengan asal kata, pengertian, dan tujuan etika, buku ini fokus pada sejarah, ketentuan, dan pengembangan etika bisnis. Pembaca akan mempelajari penerapan etika terhadap pemilik, pemasok, pelanggan, pemerintah, dan masyarakat umum, serta hubungan bisnis dengan lingkungan internal dan eksternal.Selanjutnya, buku ini membahas prinsip-prinsip etika dalam bisnis, sistem ekonomi, dan konsep sosial budaya yang memengaruhi praktik bisnis. Isu perubahan sistem nilai budaya dan dampaknya, serta masalah kemanusiaan yang terkait dengan etika bisnis, diulas secara mendalam. Di bagian akhir, fokus pada era industri 4.0, kompetensi SDM, peran etika dalam transaksi online, dan perbandingan bisnis online dengan konvensional, memberikan pandangan menyeluruh bagi pembaca tentang masa depan bisnis. Buku ini adalah panduan penting bagi mereka yang ingin memahami dan menerapkan etika dalam bisnis modern.Tahun Terbit : Cetakan Pertama, 2024 Pernahkah Anda terpikir betapa menariknya dunia yang terbuka lebar lewat lembaran buku? Membaca bukan hanya kegiatan rutin, tetapi juga petualangan tak terbatas ke dalam imajinasi dan pengetahuan. Membaca mengasah pikiran, membuka wawasan, dan memperkaya kosakata. Ini adalah pintu menuju dunia di luar kita yang tak terbatas. Tetapkan waktu khusus untuk membaca setiap hari. Dari membaca sebelum tidur hingga menyempatkan waktu di pagi hari, kebiasaan membaca dapat dibentuk dengan konsistensi. Pilih buku sesuai minat dan level literasi. Mulailah dengan buku yang sesuai dengan keinginan dan kemampuan membaca. Temukan tempat yang tenang dan nyaman untuk membaca. Lampu yang cukup, kursi yang nyaman, dan sedikit musik pelataran bisa menciptakan pengalaman membaca yang lebih baik. Buat catatan atau jurnal tentang buku yang telah Anda baca. Tuliskan pemikiran, kesan, dan pelajaran yang Anda dapatkan.",
+      "penerbit": "Penerbit Andi",
+      "jumlah_halaman": 112,
+      "tahun_terbit": 2024,
+      "kategori": "non-fiksi",
+      "id_rak": 1
+    },
+    {
+      "id": 7,
+      "cover": "https://image.gramedia.net/rs:fit:0:0/plain/https://cdn.gramedia.com/uploads/products/xpv-70-6xn.jpg",
+      "isbn": "9786230059476",
+      "judul": "Pengantar Desain UI/UX",
+      "penulis": "Jubilee Enterprise",
+      "sinopsis": "Desain UI/UX memegang peranan penting dalam keberhasilan sebuah aplikasi. Para pengembang aplikasi mengharapkan agar pengguna dapat memanfaatkan ikon, menu, workflow, dan informasi-informasi untuk memenuhi kebutuhan mereka. Sebagai timbal baliknya, pengguna rela bertransaksi untuk mendapatkan jasa dan produk yang ditawarkan oleh aplikasi tersebut. Dengan demikian, desain UI/UX yang baik dapat menjamin keberhasilan bisnis para pengembang aplikasi. Buku 'Pengantar Desain UI/UX' Ini memberi wawasan kepada Anda bagaimana terjun ke dalam bidang user interface dan user experience untuk pertama kali. Sebagian besar Isi materi Ini berbentuk tutorial untuk membuat desain user Interface yang efisien. Namun Anda juga akan membaca referensi-referensi praktis seputar UX, terutama dalam kaitannya dengan Information Architecture dan penelitian user experience menggunakan metode card sorting dan tree view. Diharapkan setelah membaca buku Ini, Anda semakin memiliki wawasan tentang bagaimana sebuah aplikasi dibangun. Bagi Anda yang menyukai dunia desain grafis dan Ingin menjadi pengembang aplikasi maka buku Ini cocok untuk dibaca! Profil Penulis: Jubilee Enterprise, telah dipercaya oleh penerbit dan pembaca buku tanah air dalam satu dasawarsa ini. Hingga sekarang, tulisan-tulisannya yang diterbitkan dalam bentuk buku telah mencapai hampir 400 judul, sebagian besar bertema teknologi informasi dan kemudian disusul dengan tema psikologi & parenting, manajemen, fotografi, anak-anak, dan tema umum lainnya. Salah satu imprint Jubilee Enterprise adalah Jubilee Authors Companion yang merupakan sahabat bagi para penulispenulis profesional yang ingin tetap berkarya. Anda dapat memperoleh informasi lebih lanjut tentang Jubilee Enterprise lewat situs: www.thinkjubilee.com",
+      "penerbit": "Elex Media Komputindo",
+      "jumlah_halaman": 248,
+      "tahun_terbit": 2024,
+      "kategori": "non-fiksi",
+      "id_rak": 1
+    }
+  ]
+}
